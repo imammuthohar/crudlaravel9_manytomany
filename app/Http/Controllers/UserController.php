@@ -1,9 +1,10 @@
 <?php
 namespace App\Http\Controllers;
-use App\Models\Phone;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Validator;
 
 class UserController extends Controller
 
@@ -16,43 +17,38 @@ class UserController extends Controller
     public function index()
     {
         //get users form Model
-        $users = User::latest()->paginate(5);
+        $users = User::latest()->paginate(3);
         return view('users.index',compact('users'));
 
     }
 
     public function create ()
     {
-        
-        return view('users.inputuser');
+        $role = Role::get();// ini jika mau melempar varibel
+        return view('users.inputuser',compact('role'));
     }
 
     public function store(Request $request)
     {
-        
-        
+        // dd($request->all());
         $this->validate($request, [
             'name'     => 'required|min:5',
             'email'    => 'required|min:5',
             'password' => 'required|min:4',
             'phone'    => 'required|min:4',
-            'role_id'  => 'reqired|min:1'
+            'role_id'  => 'required|min:1'
         ]);
-        // dd($request->all());
+        
         $user = User::create([
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => $request->password,
             'phone'    => $request->phone,
-            'role_id'  => $request->role_id
+            // 'role_id'  => $request->role_id
         ]);
-
-        // $role_id = new Role;
-        // $role_id->user_id = $user->id;
-        // $role_id->role_id=$request->role_id;
-        // $role_id->save();
-
-
+      
+    $user->roles()->attach($request->role_id);
+    
 
     return redirect()->route('users.index')->with(['success' => 'Data Berhasil Disimpan!']);
     }
@@ -61,7 +57,6 @@ class UserController extends Controller
     {
         return view('users.edituser',compact('user'));
     }
-
     public function update(Request $request, User $user)
     {
         //validate form

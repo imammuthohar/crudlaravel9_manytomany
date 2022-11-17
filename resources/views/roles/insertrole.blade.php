@@ -141,7 +141,7 @@
       <div class="mb-3">
         <label for="role_id" class="form-label">role_id</label>
         {{-- <input name="role_id" type="text" class="form-control" id="role_id" placeholder="Ketikkan role id" value="  " > --}}
-        <select class="form-control" name="role_id" id="role_id">
+        <select multiple class="form-control" name="role_id" id="role_id">
           @foreach ($role as $rl )
               <option value=" {{ $rl->id }}">{{ $rl->id }} - {{ $rl->name }}</option>
           @endforeach

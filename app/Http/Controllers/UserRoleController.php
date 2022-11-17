@@ -19,8 +19,6 @@ class UserRoleController extends Controller
 
     // }
 
-
-    
     public function index (Role $role)
     {
         $role = Role::latest()->paginate(5);
@@ -30,25 +28,13 @@ class UserRoleController extends Controller
     
 public function store(Request $request)
     {
+        dd($request->all());
         $this->validate($request,
         [
             
             'user_id'  => 'required|min:1',
             'role_id'  => 'required|min:1'
-        ]);
-            $input = $request->all();
-            $user = User::create($input);
-            $user->roles()->attach($request->role_id);
-        
-        // $user = new User;
-        
-        // // $user->user_id = User::get('id');
-        // // $user->role_id = Role::get('id');
-        // $user->roles()->attach($request);
-        // // $request->save();
-
-
-
+        ]);        
     return redirect()->route('users.index')->with(['success' => 'Data Berhasil Disimpan!']);
     }
 }
