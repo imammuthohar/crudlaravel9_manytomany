@@ -125,11 +125,20 @@
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Data User</h1>
       </div>
-      <div class="table-responsive">
-        
-        <a href="{{ route('users.create') }} " class="btn btn-primary btn-sm">Tambah User+</a>
 
-        <table class="table table-striped table-sm">
+     
+    <form action="" method="GET" role="search">
+     
+      <div class="input-group mb-3">
+        <input name="search" type="text" class="form-control" placeholder="Ketikkan pencarian"  >
+        <button class="btn btn-info" type="submit" id="button-addon2">Search</button>
+      </div>
+    </form>
+   
+    <div class="table-responsive">
+      <a href="{{ route('users.create') }} " class="btn btn-primary btn-sm">Tambah User+</a>
+      <div class="container">
+        <table class="table table-striped table-sm mt-3">
           <thead>
             <tr>
               <th scope="col">ID</th>
@@ -166,10 +175,15 @@
                             </td>
                         </tr>
                         @endforeach
-            
+                        
           </tbody>
         </table>
+        {{-- @include('pagination', ['paginator' => $users]) --}}
+        {{$users->links()}}
       </div>
+      </div>
+      
+
     </main>
   </div>
 </div>

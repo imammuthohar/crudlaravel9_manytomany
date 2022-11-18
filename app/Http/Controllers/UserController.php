@@ -1,10 +1,12 @@
 <?php
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Input;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Validator;
+
 
 class UserController extends Controller
 
@@ -16,10 +18,14 @@ class UserController extends Controller
      */
     public function index()
     {
-        //get users form Model
-        $users = User::latest()->paginate(3);
-        return view('users.index',compact('users'));
-
+        $katakunci=request('search');
+        if($katakunci){
+         $users = User::where( 'name', 'LIKE', '%' . $katakunci . '%' )->paginate(4);
+              }  else {
+                $users = User::latest()->paginate(4);
+              } 
+            return view('users.index',$users,compact('users'));    
+ 
     }
 
     public function create ()
@@ -44,7 +50,7 @@ class UserController extends Controller
             'email'    => $request->email,
             'password' => $request->password,
             'phone'    => $request->phone,
-            // 'role_id'  => $request->role_id
+         
         ]);
       
     $user->roles()->attach($request->role_id);

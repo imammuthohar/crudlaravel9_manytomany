@@ -49,6 +49,8 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{-- @include('pagination', ['paginator' => $users]) --}}
+                {{-- {{ $users->links() }} --}}
             </div>
         </div>
     </div>
